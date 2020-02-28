@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:0-12
+FROM mcr.microsoft.com/vscode/devcontainers/typescript-node:0-10
 
 ENV DEBIAN_FRONTEND=noninteractive
 ARG ANDROID_HOME="/opt/android-sdk"
@@ -9,7 +9,7 @@ ARG GRADLE_VERSION=5.6.2
 
 # Allgemein
 RUN apt update \
-    && apt install -y curl unzip software-properties-common gnupg2 zip openjdk-8-jdk-headless gradle adb --no-install-recommends
+    && apt install -y curl unzip software-properties-common gnupg2 zip openjdk-8-jdk-headless gradle --no-install-recommends
 
 # Java
 #RUN \
@@ -32,10 +32,11 @@ ENV PATH="$PATH:${ANDROID_HOME}/platform-tools"
 ENV ANDROID_HOME="${ANDROID_HOME}"
 ENV ANDROID_SDK_URL="${ANDROID_SDK_URL}"
 
-RUN npm install -g \
-    ionic \
+RUN npm install -g --unsafe-perm \
     cordova@8.1.1 \
     @angular/cli@latest \
+    @ionic/cli \
+    @ionic/app-scripts \
     native-run
 
 RUN mkdir ${ANDROID_HOME}/ -p \
